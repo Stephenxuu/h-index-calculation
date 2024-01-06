@@ -1,7 +1,7 @@
 # README for h_index.py
 
 ## Overview
-This Python script contains the implementation of a mathematical computation or simulation algorithm. The main function in this script is `compute_index_function`, which performs a series of computations and returns a pandas DataFrame.
+`h_index` contains the implementation of a mathematical computation algorithm. The main function in this script is `compute_index`, which performs a series of computations and returns a pandas DataFrame. `data_generating` is the function for us to generate the database. `H_myopic` is the function for myopic normalized gain, which would be called in the other two functions. And `data_generating` is the file we generated the database for table 4 and 5. `h_index` is user-friendly. Please use `h_index` unless you need to perform a large times of calculations.
 
 
 ## Dependencies
@@ -16,7 +16,7 @@ To run this script, the following Python libraries are required:
 The script includes several functions, of which the most notable are:
 - `H_myopic`: A function for myopic normalized gain.(Equation (7))
 - `compute_index`: A function for h-index and this version is for users.
-- `data_generating`:The same function as `compute_index` and this function is for generating the database.
+- `data_generating`: The same function as `compute_index` and this function is for generating the database.
 
 ##Parameters
 The `compute_index` function takes the following parameters:
