@@ -29,7 +29,7 @@ The `compute_index` and `data_generating` function takes the following parameter
 - `sigma`: whether the variance is known
   - `0`: unknown variance.
   - `1`: known variance.
-- `alpha0`: $\alpha_0$. 2$\alpha_0$ (the degrees of freedom) is the pseudo-count of independent data implicit in our knowledge of the variance.
+- `alpha0`: 2$\alpha_0$ (the degrees of freedom) is the pseudo-count of independent data implicit in our knowledge of the variance.
 - `nu0`: $\nu_0$ is pseudo-count of data implicit in our knowledge of the mean. The value must be non-negative(>=0).
 - `n`: specifies the sample size. The value must be a positive integer
 - `G`: specifies the size of the grid used in the function. The value must be a positive integer
