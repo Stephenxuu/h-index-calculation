@@ -18,7 +18,7 @@ The script includes several functions, of which the most notable are:
 - `data_generating`: The same function as `compute_index` and this function is for generating the database.
 
 ##Parameters
-The `compute_index` function takes the following parameters:
+The `compute_index` and `data_generating` function takes the following parameters:
 
 - `recall`: whether the function includes a recall mechanism in its operation.
   - `0`: Without Recall.
@@ -34,7 +34,7 @@ The `compute_index` function takes the following parameters:
 - `n`: specifies the sample size. The value must be a positive integer
 - `G`: specifies the size of the grid used in the function. The value must be a positive integer
 
-The `compute_index` function generates the following parameters during the execution:
+The `compute_index` and `data_generating` function generates the following parameters during the execution:
 - `z`: 'offer' list: range from [-30,30], increasing in index
 - `c`: 'serach cost' list: range from (0,0.85*G], decreasing in index
 - `H`: 3-array gain of searching: $H(k, j_z, j_c)$
