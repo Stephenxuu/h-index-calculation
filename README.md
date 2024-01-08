@@ -62,8 +62,9 @@ Replace the arguments with relevant values as per your data and analysis needs.
 
 
 ## Note on Algorithm Performance and G Value
-- **Recommended G Value:** The recommended G value for optimal performance is 57. 
+- **Performance Scaling:** A larger G value will improve the accuracy of the calculations. But choosing a larger G value will significantly increase the running time. The running time of the algorithm approximately increases by the third power of the growth multiple of G.
+- **Recommended G Value:** Combining runtime and accuracy, the recommended G value is 57. The G value we used for table 4 and 5 is 285.
 - **Estimated Time:** With a G value of 57, the estimated running time of the algorithm is approximately 4-5 minutes.
-- **Performance Scaling:** Please be aware that the running time of the algorithm increases by the third power of the growth multiple of G. Therefore, choosing a larger G value will significantly increase the running time.
+
 
 This README is based on a preliminary review of the script. For detailed information and specific use cases, refer to the inline comments and documentation within the script itself.
