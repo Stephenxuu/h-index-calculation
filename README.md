@@ -3,6 +3,12 @@
 ## Overview
 `h_index` contains the implementation of a mathematical computation algorithm. The main function in this script is `compute_index`, which performs a series of computations and returns a pandas DataFrame. `data_generating` is the function for us to generate the database. `H_myopic` is the function for myopic normalized gain, which would be called in the other two functions. And `data_generating` is the file we generated the database for table 4 and 5. `h_index` is user-friendly. Please use `h_index` unless you need to perform a large times of calculations.
 
+**Note on Algorithm Performance and G Value:**
+- **Recommended G Value:** The recommended G value for optimal performance is 57. 
+- **Estimated Time:** With a G value of 57, the estimated running time of the algorithm is approximately 4-5 minutes.
+- **Performance Scaling:** Please be aware that the running time of the algorithm increases by the third power of the growth multiple of G. Therefore, choosing a larger G value will significantly increase the running time.
+
+
 
 ## Dependencies
 To run this script, the following Python libraries are required:
