@@ -40,7 +40,7 @@ The `compute_index` function generates the following parameters during the execu
 - `H`: 3-array gain of searching: $H(k, j_z, j_c)$
 - `h`: internal cost function: $h(k, j_z)$
 - `H_u`: $H_{n,k+1}\left(\frac{z_u-\mu_u}{\sigma_u},0,1;\frac{c}{\sigma_u}\right)$
-- `s`: $sigma_u$
+- `s`: $&sigma_u$
 - `mu_u`: $\mu_u$
 - `L`: $\Lambda_{k+1}$
 - `theta_z`: $\theta_z$ for bilinear interpolation
