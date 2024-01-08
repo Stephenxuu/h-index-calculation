@@ -66,7 +66,6 @@ alpha0 = -0.5
 nu0 = 0
 n = 10
 G = 40
-
 df2=data_generating(recall, mu, sigma, alpha0, nu0, n, G)
 df2.to_csv('test2.csv', header=True, index=True)
 ```
