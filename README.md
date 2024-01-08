@@ -51,11 +51,24 @@ To use the functions in this script, import the script into your Python environm
 ```python
 import h_index
 
-# Example of using a function from the script
-df = compute_index_function()
+# Example of using 'compute_index' function from the script
+df = compute_index()
 #input: recall, mu, sigma, alpha0, nu0, n, G
 print(df)
-df.to_csv('name.csv', header=True, index=True)
+df.to_csv('test1.csv', header=True, index=True)
+
+# Example of using 'data_generating' function from the script
+# Assign: recall, mu, sigma, alpha0, nu0, n, G
+recall = 1
+mu = 0
+sigma = 0
+alpha0 = -0.5  
+nu0 = 0
+n = 10
+G = 40
+
+df2=data_generating(recall, mu, sigma, alpha0, nu0, n, G)
+df2.to_csv('test2.csv', header=True, index=True)
 ```
 
 Replace the arguments with relevant values as per your data and analysis needs.
