@@ -29,14 +29,14 @@ The `compute_index` and `data_generating` function takes the following parameter
 - `sigma`: whether the variance is known
   - `0`: unknown variance.
   - `1`: known variance.
-- `alpha0`: 2$\alpha_0$ (the degrees of freedom) is the pseudo-count of independent data implicit in our knowledge of the variance.
+- `alpha0`: $2\alpha_0$ (the degrees of freedom) is the pseudo-count of independent data implicit in our knowledge of the variance.
 - `nu0`: $\nu_0$ is pseudo-count of data implicit in our knowledge of the mean. The value must be non-negative(>=0).
 - `n`: specifies the sample size. The value must be a positive integer
 - `G`: specifies the size of the grid used in the function. The value must be a positive integer
 
 The `compute_index` and `data_generating` function generates the following parameters during the execution:
-- `z`: 'offer' list: range from [-30,30], increasing in index
-- `c`: 'serach cost' list: range from (0,0.85*G], decreasing in index
+- `z`: 'Offer' list: Grid for $z\in [-30,30]$ ($\eta = \tfrac{3}{4}>0$ to make the grid thicker around $0$), increasing in index.
+- `c`: 'Serach cost' list: Geometric grid for search cost ($\delta=0.85$). Range from (0,0.85*G], decreasing in index
 - `H`: 3-array gain of searching: $H(k, j_z, j_c)$
 - `h`: 2-array internal cost: $h(k, j_z)$
 - `H_u`: $H_u = H_{n,k+1}\left(\frac{z_u-\mu_u}{\sigma_u},0,1;\frac{c}{\sigma_u}\right)$
