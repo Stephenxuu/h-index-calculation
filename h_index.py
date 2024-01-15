@@ -24,23 +24,33 @@ def compute_index():
     pandas.DataFrame: The result of the computations.
     """
      # Get user inputs for recall, mu, sigma, alpha0, nu0, n, G
-    recall = int(input("Enter 0 or 1: 0 for without recall, 1 for with recall "))
-    while recall != 0 and recall != 1:
+    recall = input("Enter 0 or 1: 0 for without recall, 1 for with recall ")
+    while recall not in ['0', '1']:
         print("Please enter 0 or 1")
-        recall = int(input("Enter 0 or 1: 0 for without recall, 1 for with recall "))
+        recall = input("Enter 0 or 1: 0 for without recall, 1 for with recall ")
+    recall = int(recall)
+    
     mu = int(input("Enter 0 or 1: 0 for unknown mean, 1 for known mean"))
     while mu != 0 and mu != 1:
         print("Please enter 0 or 1")
         mu = int(input("Enter 0 or 1: 0 for unknown mean, 1 for known mean"))
+    
     sigma = int(input("Enter 0 or 1: 0 for unknown variance, 1 for known variance "))
     while sigma != 0 and sigma != 1:
         print("Please enter 0 or 1")
         sigma = int(input("Enter 0 or 1: 0 for unknown variance, 1 for known variance "))
-    alpha0 = float(input("Enter the alpha0 parameter (float): "))
-    nu0 = float(input("Enter the nu0 parameter (>=0, float): "))
-    while nu0 < 0:
-        print("nu0 must be greater than or equal to 0")
+    
+    alpha0 = None
+    if sigma == 0:
+        alpha0 = float(input("Enter the alpha0 parameter (float): "))
+
+    nu0 = None
+    if mu == 0:
         nu0 = float(input("Enter the nu0 parameter (>=0, float): "))
+        while nu0 < 0:
+            print("nu0 must be greater than or equal to 0")
+            nu0 = float(input("Enter the nu0 parameter (>=0, float): "))
+
     if sigma==0:
         k_min= max(math.floor(2 - 2 * alpha0),1)
     elif sigma==1:
@@ -79,7 +89,7 @@ def compute_index():
             j_c=G
             # Computation loop 3: j_c
             while j_c > 0:
-                H[k,j_z, j_c] = H_myopic(recall, sigma, z[j_z], k, alpha0)
+                H[k, j_z, j_c] = H_myopic(recall, sigma, z[j_z], k, alpha0)
                 if k < n - 1:
                     j_u=G
                     # Computation loop 2: j_u
@@ -101,11 +111,11 @@ def compute_index():
                             H_u = H_myopic(recall, sigma, z_new, k+1, alpha0)
                         else:
                             j_1, j_2 = G , G 
-                            while j_1 >1 and z_new < z[j_1]: #when j_z=57, j_u=1, z_new>z[57]
+                            while j_1 >1 and z_new < z[j_1]:
                                 j_1 -= 1
                             if j_1==G:
                                 j_1 = G-1
-                            while j_2 >1 and c[j_c] / s > c[j_2]: # what if j_c==1
+                            while j_2 >1 and c[j_c] / s > c[j_2]:
                                 j_2 -= 1
                             if j_2==G:
                                 j_2 = G-1
@@ -206,11 +216,11 @@ def data_generating(recall, mu, sigma, alpha0, nu0, n, G):
                             H_u = H_myopic(recall, sigma, z_new, k+1, alpha0)
                         else:
                             j_1, j_2 = G , G 
-                            while j_1 >1 and z_new < z[j_1]: #when j_z=57, j_u=1, z_new>z[57]
+                            while j_1 >1 and z_new < z[j_1]:
                                 j_1 -= 1
                             if j_1==G:
                                 j_1 = G-1
-                            while j_2 >1 and c[j_c] / s > c[j_2]: # what if j_c==1
+                            while j_2 >1 and c[j_c] / s > c[j_2]:
                                 j_2 -= 1
                             if j_2==G:
                                 j_2 = G-1
