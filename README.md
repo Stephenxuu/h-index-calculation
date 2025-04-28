@@ -1,82 +1,128 @@
-# README for h_index.py
+# Fast H-Index Computation
 
-## Overview
-`h_index` contains the implementation of a mathematical computation algorithm. The main function in this script is `compute_index`, which performs a series of computations and returns a pandas DataFrame. `data_generating` is the function for us to generate the database. `H_myopic` is the function for myopic normalized gain, which would be called in the other two functions. And `data_generating` is the file we generated the database for table 4 and 5. `h_index` is user-friendly. Please use `h_index` unless you need to perform a large times of calculations.
+This repository contains an optimized implementation of the h-index computation algorithm from the paper "Search in the Dark: The Case with Recall and Gaussian Learning" by Manel Baucells and Sasa Zorc.
 
-## Dependencies
-To run this script, the following Python libraries are required:
-- `math`: Standard Python library for basic mathematical operations.
-- `numpy`: Essential library for numerical computations in Python.
-- `pandas`: Library providing high-performance, easy-to-use data structures and data analysis tools.
-- `scipy`: Library used for scientific and technical computing.
+## License
 
+This code is provided under the following license terms from the original paper:
 
-## Functions
-The script includes several functions, of which the most notable are:
-- `H_myopic`: A function for myopic normalized gain.(Equation (7))
-- `compute_index`: A function for h-index and this version is for users.
-- `data_generating`: The same function as `compute_index` and this function is for generating the database.
+Copyright (c) 2024 Manel Baucells and Sasa Zorc
 
-##Parameters
-The `compute_index` and `data_generating` function takes the following parameters:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-- `recall`: whether the function includes a recall mechanism in its operation.
-  - `0`: Without Recall.
-  - `1`: With Recall.
-- `mu`: whether the mean is known
-  - `0`: unknown mean.
-  - `1`: known mean.
-- `sigma`: whether the variance is known
-  - `0`: unknown variance.
-  - `1`: known variance.
-- `alpha0`: $2\alpha_0$ (the degrees of freedom) is the pseudo-count of independent data implicit in our knowledge of the variance.
-- `nu0`: $\nu_0$ is pseudo-count of data implicit in our knowledge of the mean. The value must be non-negative(>=0).
-- `n`: specifies the sample size. The value must be a positive integer
-- `G`: specifies the size of the grid used in the function. The value must be a positive integer
+1. The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+2. Any use of this software must cite the original paper:
+   ```
+   Baucells, M., & Zorc, S. (2024). Search in the Dark: The Case with Recall and Gaussian Learning.
+   ```
 
-The `compute_index` and `data_generating` function generates the following parameters during the execution:
-- `z`: 'Offer' list: Grid for $z\in [-30,30]$ ($\eta = \tfrac{3}{4}>0$ to make the grid thicker around $0$), increasing in index.
-- `c`: 'Serach cost' list: Geometric grid for search cost ($\delta=0.85$). Range from (0,0.85*G], decreasing in index
-- `H`: 3-array gain of searching: $H(k, j_z, j_c)$
-- `h`: 2-array internal cost: $h(k, j_z)$
-- `H_u`: $H_u = H_{n,k+1}\left(\frac{z_u-\mu_u}{\sigma_u},0,1;\frac{c}{\sigma_u}\right)$
-- `s`: $\sigma_u = \sqrt{1-1/(\nu_0+k+1)^2}$ $(= \sigma_{k+1}/\sigma_k)$.
-- `mu_u`: $\mu_u = u / (\nu_0+k+1)$
-- `L`: $\Lambda_{k+1}$
-- `theta_z`: $\theta_z$ for bilinear interpolation
-- `theta_c`: $\theta_c$ for bilinear interpolation
+## Description
 
-## Usage
-To use the functions in this script, import the script into your Python environment and call the functions with appropriate parameters. Example:
-```python
-import h_index
+This implementation provides a fast and optimized version of the h-index computation algorithm using Numba for parallel processing. The code includes:
 
-# Example of using 'compute_index' function from the script
-df = compute_index()
-#input: recall, mu, sigma, alpha0, nu0, n, G
-print(df)
-df.to_csv('test1.csv', header=True, index=True)
+1. Statistical functions for t and normal distributions
+2. Parameter update functions for the sequential search process
+3. H-index computation with and without recall
+4. A sampling mechanism for sequential decision making
 
-# Example of using 'data_generating' function from the script
-# Assign: recall, mu, sigma, alpha0, nu0, n, G
-recall = 1
-mu = 0
-sigma = 0
-alpha0 = -0.5  
-nu0 = 0
-n = 10
-G = 40
-df2=data_generating(recall, mu, sigma, alpha0, nu0, n, G)
-df2.to_csv('test2.csv', header=True, index=True)
+## Requirements
+
+- Python 3.8+
+- NumPy
+- SciPy
+- Numba
+- Pandas
+
+## Installation
+
+```bash
+pip install numpy scipy numba pandas
 ```
 
-Replace the arguments with relevant values as per your data and analysis needs.
+## Usage
 
+The main functionality is implemented in `fast_h_index.py`. Here's a basic example:
 
-## Note on Algorithm Performance and G Value
-- **Performance Scaling:** A larger G value will improve the accuracy of the calculations. But choosing a larger G value will significantly increase the running time. The running time of the algorithm approximately increases by the third power of the growth multiple of G.
-- **Recommended G Value:** Combining runtime and accuracy, the recommended G value is 57. The G value we used for table 4 and 5 is 285.
-- **Estimated Time:** With a G value of 57, the estimated running time of the algorithm is approximately 4-5 minutes.
+```python
+from fast_h_index import h_index_full, h_index_value, compute_initial_parameters, update_parameters
 
+# Initialize parameters
+alpha0 = 0.5
+nu0 = 1.0
+beta0 = 1.0
+mu0 = 0.0
+c = 0.1  # cost parameter
+n = 30   # maximum iterations
+G = 200  # grid size
 
-This README is based on a preliminary review of the script. For detailed information and specific use cases, refer to the inline comments and documentation within the script itself.
+# Solve the full h-index table
+h_matrix, z_grid = h_index_full(recall=1, mu_flag=0, sigma_flag=0, 
+                               alpha0=alpha0, nu0=nu0, n=n, G=G)
+
+# Get initial observations
+x_values = np.array([0.1, -0.4, 0.2])
+
+# Compute initial parameters
+z_k, mu_k, sigma_k = compute_initial_parameters(x_values, alpha0, nu0, beta0, mu0)
+
+# Sampling mechanism
+k = 3  # Start from k_0
+stop = False
+all_observations = list(x_values)
+
+while not stop and k < n:
+    # Compute standardized z and cost
+    z_val = (z_k - mu_k) / sigma_k
+    c_value = c / sigma_k
+    
+    # Get h-value
+    h_val = h_index_value(h_matrix, z_grid, n=n, k=k, z_val=z_val)
+    
+    # Decision: continue or stop
+    if h_val > c_value:
+        # Continue: draw new sample and update parameters
+        new_sample = np.random.normal(mu_k, sigma_k)
+        all_observations.append(new_sample)
+        
+        # Update parameters
+        z_k, mu_k, sigma_k = update_parameters(z_k, mu_k, sigma_k, new_sample, 
+                                             k, alpha0, nu0, beta0, mu0)
+        k += 1
+    else:
+        stop = True
+```
+
+## Functions
+
+### Statistical Functions
+- `_t_pdf(x, df)`: t-distribution PDF
+- `_norm_pdf(x)`: normal distribution PDF
+- `_t_cdf(x, df)`: t-distribution CDF
+- `_norm_cdf(x)`: normal distribution CDF
+
+### Parameter Update Functions
+- `update_parameters(z_k, mu_k, sigma_k, y, k, alpha0, nu0, beta0, mu0)`: Updates parameters based on new observation
+- `compute_initial_parameters(x_values, alpha0, nu0, beta0, mu0)`: Computes initial parameters
+
+### H-Index Computation Functions
+- `H_myopic_jit(recall, sigma_flag, z, k, alpha0)`: Computes myopic H-function
+- `build_grids(G, rho=0.85, Z=30, ita=0.75)`: Builds c and z grids
+- `h_index_recall1(mu_flag, sigma_flag, alpha0, nu0, n, G, c, z)`: Computes h-index for recall=1
+- `h_index_full(recall, mu_flag, sigma_flag, alpha0, nu0, n, G)`: Solves full h-index table
+- `h_index_value(h_matrix, z_grid, n, k, z_val)`: Retrieves interpolated h-value
+
+## Citation
+
+If you use this code in your research, please cite:
+
+```
+Baucells, M., & Zorc, S. (2024). Search in the Dark: The Case with Recall and Gaussian Learning.
+```
+
+## Author
+
+This implementation is based on the work of Manel Baucells and Sasa Zorc.
+
+## Acknowledgments
+
+Thanks to the authors for their original work and for making their research available to the community.
