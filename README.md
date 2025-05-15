@@ -1,12 +1,12 @@
 # Fast H-Index Computation
 
-This repository contains an optimized implementation of the h-index computation algorithm from the paper "Search in the Dark: The Case with Recall and Gaussian Learning" by Manel Baucells and Sasa Zorc.
+This repository contains an optimized implementation of the h-index computation algorithm from the paper "Search in the Dark: The Case with Recall and Gaussian Learning" by Manel Baucells and Sasa Zorc. And the algorithm is established by Stephen Xu.
 
 ## License
 
 This code is provided under the following license terms from the original paper:
 
-Copyright (c) 2024 Manel Baucells and Sasa Zorc
+Copyright (c) 2024 Manel Baucells, Sasa Zorc, Stephen Xu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
